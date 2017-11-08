@@ -1,9 +1,19 @@
 class CarController < ApplicationController
 
 	get '/' do
-		@cars = Car.all
+		erb :Home
+	end	
 
+	get '/info2' do
+		@cars = Car.all
 		@cars.to_json
+	end
+
+	get '/info' do
+		@cars = Car.all
+		@cars.to_json
+
+		erb :Cars
 	end
 
 	post '/' do	
@@ -15,8 +25,13 @@ class CarController < ApplicationController
 		@cars.price = params[:price]
 		@cars.awd = params[:awd]
 		@cars.save
+		@cars
+	end	
 
-		'saved'
+	delete '/:id' do
+		@cars = Car.find_by(id: params[:id])
+		@cars.delete
+		'deleted'
 	end	
 
 	put '/:id' do
@@ -27,14 +42,6 @@ class CarController < ApplicationController
 		@cars.price = params[:price]
 		@cars.awd = params[:awd]
 		@cars.save
-
-		'updated'
-	end	
-
-	delete '/:id' do
-		@cars = Car.find_by(id: params[:id])
-		@cars.delete
-		'deleted'
 	end	
 
 end	
